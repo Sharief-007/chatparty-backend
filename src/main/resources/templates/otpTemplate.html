@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <h1>Thank you for your interest in joining the application</h1>
+    <h3>Open the following link to activate your account</h3>
+    <a th:href="${message}">Click here</a><span> to Activate Account</span> <br>
+    <p>You can also paste this link <a th:href="${message}" th:text="${message}"></a> in your favourite browser</p>
+    <p><b>Note :</b> The link will automatically expire after 24 hours of generation</p>
+</div>
+</body>
+</html>

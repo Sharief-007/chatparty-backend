@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Hello World</h1>
+<div id="box">
+
+</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script>
+    let ws = new SockJS("http://localhost:8080/ws");
+    console.log(ws);
+
+    let client = Stomp.over(ws);
+    let box = document.querySelector("#box")
+    client.connect({
+        login : 'guest',
+        password : 'guest'
+    },(frame) =>{
+        console.log('Connected to websocket server',frame);
+        client.subscribe("/queue/active",(frame) =>{
+            let p =document.createElement("p");
+            p.innerText = frame.body;
+            box.appendChild(p);
+
+            frame.nack({
+                "nack-header":"nack-nack-nack"
+            },{
+                "ack":"client"
+            });
+        })
+
+
+        let msg = {
+            "sender":"chrome",
+            "receiver":"intellij",
+            "message":"Hello Fucking World "
+        }
+        client.send("/spring/save",{"collection":"messenger"},JSON.stringify(msg))
+    })
+</script>
+</html>
